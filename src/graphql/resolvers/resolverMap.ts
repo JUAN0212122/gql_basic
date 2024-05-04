@@ -3,8 +3,8 @@ import { CartoonDataSource } from '../../datasource';
 
 const resolver: IResolvers = {
     Query: {
-        hello(){
-            return "Hello World!";
+        hello(_, { name }){
+            return name ? `Hello, ${name}!` : "Hello, world!";
         },
         getCartoons(){
             return CartoonDataSource;
