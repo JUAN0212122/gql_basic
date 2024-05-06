@@ -8,6 +8,7 @@
         "removeComments": true,
         "sourceMap": true,
         "target": "ES5",
+        "forceConsistentCasingInFileNames": true,
         "esModuleInterop": true
     },
     "exclude": [
