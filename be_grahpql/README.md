@@ -5,11 +5,6 @@ En este laboratorio se implementó una aplicación **Full Stack** utilizando Rea
 
 ---
 
-## Objetivo
-Integrar el frontend en React con la API GraphQL, permitiendo la comunicación directa con el backend para consultar y modificar datos en tiempo real.
-
----
-
 ## Estructura del proyecto
 
 - **fe_test/** → Frontend en React
