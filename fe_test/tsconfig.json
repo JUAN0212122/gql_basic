@@ -7,7 +7,7 @@
         "preserveConstEnums": true,
         "removeComments": true,
         "sourceMap": true,
-        "target": "ES5",
+        "target": "es2022",
         "forceConsistentCasingInFileNames": true,
         "esModuleInterop": true
     },
