@@ -29,13 +29,12 @@ const userResolver: IResolvers = {
             const token = args?.token;
             if (!token) throw new Error("Token not provided");
             try {
-                const user:any = jwt.verify(token, "abc.123");
+                const user: any = jwt.verify(token, "abc.123");
                 return await context.collection('users').findOne({ _id: new ObjectId(user?._id) });
             } catch (error) {
                 console.log(error);
-            }   
+            }
         }
-
     },
     Mutation: {
         createUser: async (parent, args, context: Db) => {
@@ -48,21 +47,50 @@ const userResolver: IResolvers = {
         },
         updateUser: async (parent, args, context: Db) => {
             try {
-                console.log(args);
-                const userColl = await context.collection('users').findOne({ _id: new ObjectId(args._id) });
+                console.log("Args:", args);
+                console.log("ID a actualizar:", args._id);
+                console.log("Datos:", args.userInput);
 
-                if (!userColl) throw new Error("User not found");
+                
+                const userExists = await context.collection('users').findOne({
+                    _id: new ObjectId(args._id)
+                });
 
-                await context.collection('user').updateOne(
+                if (!userExists) {
+                    console.log("Usuario no encontrado");
+                    throw new Error("User not found");
+                }
+
+                
+                await context.collection('users').updateOne(
                     { _id: new ObjectId(args._id) },
-                    { $set: args.user }
+                    { $set: args.userInput }
                 );
 
-                return "User updated successfully";
+                
+                const updatedUser = await context.collection('users').findOne({
+                    _id: new ObjectId(args._id)
+                });
+
+                console.log("Usuario actualizado:", updatedUser);
+
+                
+                if (updatedUser) {
+                    return {
+                        _id: updatedUser._id.toString(),
+                        name: updatedUser.name,
+                        email: updatedUser.email,
+                        password: updatedUser.password
+                    };
+                }
+
+                return null;
+
             } catch (error) {
-                console.log(error);
+                console.log("Error:", error);
+                return null;
             }
-        },
+        },  
         authUser: async (parent, args, context: Db) => {
             const { email, password } = args?.authInput;
             const userColl = await context.collection('users').findOne({ email: email, password: password });
@@ -71,10 +99,6 @@ const userResolver: IResolvers = {
                 token: CreateToken(userColl, "abc.123", '24h')
             }
         }
-    }
-}
-
-
-
-
+    }  
+};  
 export default userResolver;

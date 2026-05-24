@@ -29,6 +29,6 @@ input AuthInput{
 
 type Mutation{
     createUser(userInput: UserInput): String
-    updateUser(_id:ID, userInput: UserInput): String
+    updateUser(_id: ID!, userInput: UserInput): User
     authUser(authInput: AuthInput): Token
 }
